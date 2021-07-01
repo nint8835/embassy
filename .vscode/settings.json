@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.html.tmpl": "html"
+    },
+    "editor.formatOnSave": true
+}
