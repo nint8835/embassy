@@ -7,6 +7,44 @@ body {
   color: #fafafa;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .content {
   padding: 10vh 10vw;
+}
+
+.group-container {
+  display: grid;
+  column-gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-auto-flow: dense;
+}
+
+.service {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+}
+
+.service:hover {
+  background-color: #383838;
+}
+
+.service-icon {
+  width: 2rem;
+  height: 2rem;
+  padding-right: 0.5rem;
+  filter: brightness(0) invert(1) brightness(0.98039216);
+}
+
+.service-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-description {
+  color: #7d7d7d;
 }

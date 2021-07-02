@@ -1,13 +1,40 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Embassy</title>
+    <title>
+      {{ .title }}{{ if ne .title "Embassy" }}{{ " - Embassy" }}{{ end }}
+    </title>
 
     <link rel="stylesheet" href="static/style.css" />
   </head>
   <body>
     <div class="content">
-      <h1>{{ .Title }}</h1>
+      <h1>{{ .title }}</h1>
+      <div class="group-container">
+        {{ range $group := .groups }}
+          <div class="group">
+            <h2>{{ $group.title }}</h2>
+            <hr />
+            {{ range $service := $group.services }}
+              <a href="{{ $service.url }}">
+                <div class="service">
+                  {{ if $service.icon_url }}
+                    <img src="{{ $service.icon_url }}" class="service-icon" />
+                  {{ end }}
+                  <div class="service-info">
+                    <span class="service-title">
+                      {{ $service.title }}
+                    </span>
+                    <span class="service-description">
+                      {{ $service.description }}
+                    </span>
+                  </div>
+                </div>
+              </a>
+            {{ end }}
+          </div>
+        {{ end }}
+      </div>
     </div>
   </body>
 </html>
