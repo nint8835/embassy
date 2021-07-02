@@ -1,7 +1,15 @@
 package main
 
-import "github.com/nint8835/embassy/app"
+import (
+	"fmt"
+	"os"
+
+	"github.com/nint8835/embassy/app"
+)
 
 func main() {
-	app.Start()
+	err := app.Start()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error starting embassy: %s", err)
+	}
 }

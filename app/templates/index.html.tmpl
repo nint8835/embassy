@@ -2,38 +2,38 @@
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>
-      {{ .title }}{{ if ne .title "Embassy" }}{{ " - Embassy" }}{{ end }}
+      {{ .Title }}{{ if ne .Title "Embassy" }}{{ " - Embassy" }}{{ end }}
     </title>
 
     <link rel="stylesheet" href="static/style.css" />
   </head>
   <body>
     <div class="content">
-      <h1>{{ .title }}</h1>
+      <h1>{{ .Title }}</h1>
       <div class="group-container">
-        {{ range $group := .groups }}
+        {{ range $group := .Groups }}
           <div class="group">
-            <h2>{{ $group.title }}</h2>
+            <h2>{{ $group.Title }}</h2>
             <hr />
-            {{ range $service := $group.services }}
-              <a href="{{ $service.url }}">
+            {{ range $service := $group.Services }}
+              <a href="{{ $service.URL }}">
                 <div
                   class="
                   service
-                  {{ if $service.status }}
-                    status-{{ $service.status }}
+                  {{ if $service.Status }}
+                    status-{{ $service.Status }}
                   {{ end }}
                   "
                 >
-                  {{ if $service.icon_url }}
-                    <img src="{{ $service.icon_url }}" class="service-icon" />
+                  {{ if $service.IconURL }}
+                    <img src="{{ $service.IconURL }}" class="service-icon" />
                   {{ end }}
                   <div class="service-info">
                     <span class="service-title">
-                      {{ $service.title }}
+                      {{ $service.Title }}
                     </span>
                     <span class="service-description">
-                      {{ $service.description }}
+                      {{ $service.Description }}
                     </span>
                   </div>
                 </div>
