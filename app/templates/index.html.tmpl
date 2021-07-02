@@ -17,7 +17,14 @@
             <hr />
             {{ range $service := $group.services }}
               <a href="{{ $service.url }}">
-                <div class="service">
+                <div
+                  class="
+                  service
+                  {{ if $service.status }}
+                    status-{{ $service.status }}
+                  {{ end }}
+                  "
+                >
                   {{ if $service.icon_url }}
                     <img src="{{ $service.icon_url }}" class="service-icon" />
                   {{ end }}

@@ -48,3 +48,11 @@ a {
 .service-description {
   color: #7d7d7d;
 }
+
+.status-warning {
+  border-right: #ffff0080 solid 4px;
+}
+
+.status-error {
+  border-right: #ff000080 solid 4px;
+}
