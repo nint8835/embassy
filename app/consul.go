@@ -23,7 +23,7 @@ type Group struct {
 }
 
 func fetchServices() []Group {
-	groups := map[string]*Group{"default": {Title: "Default"}}
+	groups := map[string]*Group{}
 
 	services, _, err := consulClient.Catalog().Services(&consul.QueryOptions{})
 	if err != nil {
@@ -45,7 +45,22 @@ func fetchServices() []Group {
 
 	for service, tags := range enabledServices {
 		serviceObj := &Service{Title: service}
-		serviceGroup := "default"
+		serviceGroup := "Uncategorized"
+
+		serviceInstances, _, err := consulClient.Catalog().Service(service, "", &consul.QueryOptions{})
+		if err != nil {
+			panic(fmt.Errorf("error fetching service details: %w", err))
+		}
+		serviceChecks, _, err := consulClient.Health().Checks(service, &consul.QueryOptions{})
+		if err != nil {
+			panic(fmt.Errorf("error fetching service status: %w", err))
+		}
+
+		for _, check := range serviceChecks {
+			fmt.Println(check.Status)
+		}
+
+		// fmt.Printf("%#+v\n", serviceChecks)
 
 		for _, tag := range tags {
 			if !strings.HasPrefix(tag, fmt.Sprintf("%s.", config.TagPrefix)) {
@@ -70,6 +85,14 @@ func fetchServices() []Group {
 				serviceObj.IconURL = value
 			case "group":
 				serviceGroup = value
+			}
+		}
+
+		if serviceObj.URL == "" {
+			for _, serviceInstance := range serviceInstances {
+				if serviceInstance.Checks.AggregatedStatus() == "passing" && serviceInstance.ServicePort != 0 {
+					serviceObj.URL = fmt.Sprintf("http://%s:%d", serviceInstance.ServiceAddress, serviceInstance.ServicePort)
+				}
 			}
 		}
 
