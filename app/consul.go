@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -40,7 +41,7 @@ func fetchServices() []Group {
 		}
 	}
 
-	fmt.Printf("%#+v\n", enabledServices)
+	// fmt.Printf("%#+v\n", enabledServices)
 
 	for service, tags := range enabledServices {
 		serviceObj := &Service{Title: service}
@@ -82,10 +83,17 @@ func fetchServices() []Group {
 
 	groupList := []Group{}
 	for _, group := range groups {
+		sort.Slice(group.Services, func(i, j int) bool {
+			return group.Services[i].Title < group.Services[j].Title
+		})
 		if len(group.Services) != 0 {
 			groupList = append(groupList, *group)
 		}
 	}
+
+	sort.Slice(groupList, func(i, j int) bool {
+		return groupList[i].Title < groupList[j].Title
+	})
 
 	return groupList
 
