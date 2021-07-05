@@ -10,6 +10,11 @@ func _IndexHandler(c *fiber.Ctx) error {
 	})
 }
 
+func _HealthHandler(c *fiber.Ctx) error {
+	return c.JSON(&fiber.Map{"healthy": true})
+}
+
 func Register(app *fiber.App) {
 	app.Get("/", _IndexHandler)
+	app.Get("/health", _HealthHandler)
 }
