@@ -34,14 +34,11 @@ func fetchServices() []Group {
 
 	for name, tags := range services {
 		for _, tag := range tags {
-			// fmt.Println(tag)
 			if tag == fmt.Sprintf("%s.enable=true", config.TagPrefix) {
 				enabledServices[name] = tags
 			}
 		}
 	}
-
-	// fmt.Printf("%#+v\n", enabledServices)
 
 	for service, tags := range enabledServices {
 		serviceObj := &Service{Title: service}
@@ -51,16 +48,10 @@ func fetchServices() []Group {
 		if err != nil {
 			panic(fmt.Errorf("error fetching service details: %w", err))
 		}
-		serviceChecks, _, err := consulClient.Health().Checks(service, &consul.QueryOptions{})
-		if err != nil {
-			panic(fmt.Errorf("error fetching service status: %w", err))
-		}
-
-		for _, check := range serviceChecks {
-			fmt.Println(check.Status)
-		}
-
-		// fmt.Printf("%#+v\n", serviceChecks)
+		// serviceChecks, _, err := consulClient.Health().Checks(service, &consul.QueryOptions{})
+		// if err != nil {
+		// 	panic(fmt.Errorf("error fetching service status: %w", err))
+		// }
 
 		for _, tag := range tags {
 			if !strings.HasPrefix(tag, fmt.Sprintf("%s.", config.TagPrefix)) {
@@ -119,7 +110,4 @@ func fetchServices() []Group {
 	})
 
 	return groupList
-
-	// fmt.Printf("%#+v\n%#+v\n%#+v\n", services, metadata, err)
-	// fmt.Printf("%#+v\n", enabledServices)
 }

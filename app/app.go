@@ -7,6 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/template/html"
 	consul "github.com/hashicorp/consul/api"
 	"github.com/kelseyhightower/envconfig"
@@ -15,6 +16,7 @@ import (
 type Config struct {
 	ConsulEndpoint string `default:"127.0.0.1:8500" split_words:"true"`
 	TagPrefix      string `default:"embassy" split_words:"true"`
+	SiteTitle      string `default:"Embassy" split_words:"true"`
 }
 
 //go:embed templates/*
@@ -53,6 +55,7 @@ func Start() error {
 		Root:       http.FS(staticFS),
 		PathPrefix: "static",
 	}))
+	app.Use(recover.New())
 
 	Register(app)
 
